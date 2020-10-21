@@ -1,0 +1,7 @@
+(sym_lib_table
+  (lib (name meteo-home-rescue)(type Legacy)(uri ${KIPRJMOD}/meteo-home-rescue.lib)(options "")(descr ""))
+  (lib (name nodemcu)(type Legacy)(uri /home/guille/Documentos/kicad/kicad-lib-master/nodemcu.lib)(options "")(descr ""))
+  (lib (name sensors)(type Legacy)(uri /home/guille/Documentos/kicad/kicad-lib-master/sensors.lib)(options "")(descr ""))
+  (lib (name SparkFun-Sensors)(type Legacy)(uri /home/guille/Documentos/kicad/SparkFun-KiCad-Libraries-master/Libraries/SparkFun-Sensors.lib)(options "")(descr ""))
+  (lib (name co2-detector-rescue)(type Legacy)(uri ${KIPRJMOD}/co2-detector-rescue.lib)(options "")(descr ""))
+)
