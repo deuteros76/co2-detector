@@ -29,7 +29,6 @@ Note: currently I haven't tested the PCB design. I have ordered 5 boards to test
 
 The software is available unde Apache 2.0 license and can be found in the co2-detector directory.
 
-
 ### Requirements
 - This source uses Arduino IDE and its standard libraries
 - Additional libraries: WiFiManager, Arduino Json, PubSubClient, DHT and Adafruit SGP30
@@ -38,5 +37,16 @@ The software is available unde Apache 2.0 license and can be found in the co2-de
 
 ## Configuration
 
-TBC
+During the first execution, the device will launch a WiFi access point. Using your PC or mobile device, check the available networks and connect to the network whose name starts with "meteo-home". After that, point your browser to http://192.168.4.1 and the configuration page will be displayed. 
+
+![Home](doc/images/home.png) 
+
+Choose the first option ("Configure WiFi") and select your WiFi network from the list of detected access points. 
+
+![Available networks](doc/images/wifi-scan.png) 
+
+Write your WiFi password and fill all the fields related to your MQTT topic names.
+
+![Settings](doc/images/parameter-settings.png) 
+
 
