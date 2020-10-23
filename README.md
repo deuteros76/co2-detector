@@ -41,12 +41,28 @@ During the first execution, the device will launch a WiFi access point. Using yo
 
 ![Home](doc/images/home.png) 
 
-Choose the first option ("Configure WiFi") and select your WiFi network from the list of detected access points. 
+Choose the first option ("Configure WiFi") and select your WiFi network from the list of detected access points then, write your WiFi password.
 
 ![Available networks](doc/images/wifi-scan.png) 
 
-Write your WiFi password and fill all the fields related to your MQTT topic names.
+Now configure you network settings.
 
-![Settings](doc/images/parameter-settings.png) 
+![Network](doc/images/network.png) 
 
+The device will publish all sensor data through mqtt so, the information is sento to another machine such as a minipc uses as an IoT gatway. To do that you have to introduce the data of the mqtt server. 
 
+![Network](doc/images/mqtt-server.png) 
+
+fill all the fields related to your MQTT topic names and save your configuration. If you have several devices in different places you can change the prefix (room1/Temperature, room2/Temperature and so on)
+
+![Network](doc/images/mqtt-topics.png) 
+
+After saving the setting the device will reset and then it will run in its normal mode, gathering data from all sensors.
+
+## Home Assistant
+
+I use Home Assistant to collect all the data and display the information. The software runs in a miniPC (a SolidRun CuBox-i) which is a small home IoT server and also has the Mosquitto mqtt broker. The device sends sensors data to the mqtt broker and Home Assistant reads it and stores everything in a data base. 
+In addition to that Home Assistant has a frontend application that shows the current status of all your sensors and historical graphs of a selected day.
+You can use any other similar software with the capability of subscribing to read from mqtt.
+
+![Home Assistant](doc/images/hass.png) 
