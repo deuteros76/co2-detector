@@ -37,7 +37,7 @@ The software is available unde Apache 2.0 license and can be found in the co2-de
 
 ## Configuration
 
-During the first execution, the device will launch a WiFi access point. Using your PC or mobile device, check the available networks and connect to the network whose name starts with "meteo-home". After that, point your browser to http://192.168.4.1 and the configuration page will be displayed. 
+During the first execution, the device will launch a WiFi access point. Using your PC or mobile device, check the available networks and connect to the network whose name starts with "CO2-detector". After that, point your browser to http://192.168.4.1 and the configuration page will be displayed. 
 
 ![Home](doc/images/home.png) 
 

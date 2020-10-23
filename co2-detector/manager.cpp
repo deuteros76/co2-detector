@@ -201,7 +201,7 @@ void Manager::setup_wifi(){
     Serial.println(WiFi.subnetMask());
   }else {
         wifiManager.setTimeout(300);
-        wifiManager.startConfigPortal("Meteo-home");
+        wifiManager.startConfigPortal("CO2-detector");
   }
   
   //if you get here you have connected to the WiFi
