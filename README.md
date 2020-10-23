@@ -1,6 +1,6 @@
 # CO2 detector
 
-After reading [this article](https://theconversation.com/how-to-use-ventilation-and-air-filtration-to-prevent-the-spread-of-coronavirus-indoors-143732) ([ES](https://www.bbc.com/mundo/noticias-53754274)) I started to think about creating my own sensor board. I searched which sensor to use and the SGP30 seemed a good option to me. After a few tests, I modified the code of another project and then I built two prototipes which are currently working in my house. The device uses a mqtt queue to send data to an IoT gateway (a minipc running Home Assistant in my case). In addition to that, there are three LEDs to show what is the current state of the air based on CO2 PPMs:
+After reading [this article](https://theconversation.com/how-to-use-ventilation-and-air-filtration-to-prevent-the-spread-of-coronavirus-indoors-143732) ([ES](https://www.bbc.com/mundo/noticias-53754274)) I started to think about creating my own sensor board. I searched which sensor to use and the SGP30 seemed a good option to me. After a few tests, I modified the code of another project and then I built two prototypes which are currently working in my house. The device uses a mqtt queue to send data to an IoT gateway (a minipc running Home Assistant in my case). In addition to that, there are three LEDs to show what is the current state of the air based on CO2 PPMs:
 
 - Green light is shown if there are less than 600 PPM of CO2.
 - Yellow light if there are between 600 and 800 PPM.
