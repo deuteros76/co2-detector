@@ -49,15 +49,15 @@ Now configure you network settings.
 
 ![Network](doc/images/network.png) 
 
-The device will publish all sensor data through mqtt so, the information is sento to another machine such as a minipc uses as an IoT gatway. To do that you have to introduce the data of the mqtt server. 
+The device will publish all sensor data through mqtt so, the information is sent to another machine such as a minipc used as an IoT gatway. To do that, you have to introduce the data of the mqtt server. 
 
 ![Network](doc/images/mqtt-server.png) 
 
-fill all the fields related to your MQTT topic names and save your configuration. If you have several devices in different places you can change the prefix (room1/Temperature, room2/Temperature and so on)
+Then, fill all the fields related to your MQTT topic names and save your configuration. If you have several devices in different places you can change the prefix (room1/Temperature, room2/Temperature and so on).
 
 ![Network](doc/images/mqtt-topics.png) 
 
-After saving the setting the device will reset and then it will run in its normal mode, gathering data from all sensors.
+After saving the settings the device will be reset and then it will run in its normal mode, gathering data from all sensors.
 
 ## Home Assistant
 
