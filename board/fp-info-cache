@@ -1,4 +1,4 @@
-159293463973701
+145999626606368
 Battery_Holders
 Bulgin_BX0036_1xC
 
@@ -42104,62 +42104,6 @@ powermite3
 0
 0
 0
-Sensors
-DHT11_Temperature_Humidity
-
-
-0
-3
-3
-Sensors
-DHT22_Temperature_Humidity
-
-
-0
-4
-4
-Sensors
-Logo_5mm
-
-
-0
-0
-0
-Sensors
-Logo_25mm
-
-
-0
-0
-0
-Sensors
-PIR_Motion_Sensor
-Pyroelectric Infrared Motion Sensor
-pyroelectric infrared motion sensor ir pir
-0
-3
-3
-Sensors
-Photoresistor
-
-
-0
-3
-3
-Sensors
-RF_Receiver_433_MHz
-433 MHz RF Receiver
-rf receiver 433 mhz
-0
-4
-4
-Sensors
-RF_Transmitter_433_MHz
-
-
-0
-3
-3
 Shielding_Cabinets
 Laird_Technologies_97-2002_25.40x25.40mm
 
@@ -51106,20 +51050,13 @@ SolderWirePad_single_SMD_5x10mm
 0
 0
 0
-nodemcu
-NodeMCU_0.9
-Through-hole-mounted NodeMCU 0.9
-nodemcu
+co2-detector
+OSHW
+
+
 0
-30
-30
-nodemcu
-NodeMCU_Amica_R2
-Through-hole-mounted NodeMCU 0.9
-nodemcu
 0
-30
-30
+0
 wemos-d1-mini
 wemos-d1-mini-connectors-only
 

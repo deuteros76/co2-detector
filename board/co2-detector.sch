@@ -133,14 +133,6 @@ F 3 "" H 6100 2750 60  0001 C CNN
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	5300 2900 5300 2800
-Wire Wire Line
-	5300 2800 5600 2800
-Wire Wire Line
-	5600 2900 5400 2900
-Wire Wire Line
-	5400 2900 5400 3000
-Wire Wire Line
 	3300 2450 5600 2450
 Wire Wire Line
 	5600 2450 5600 2600
@@ -218,10 +210,6 @@ Wire Wire Line
 	5050 3400 4900 3400
 Wire Wire Line
 	4900 3300 5400 3300
-Wire Wire Line
-	5400 3000 4900 3000
-Wire Wire Line
-	4900 2900 5300 2900
 $Comp
 L co2-detector-rescue:WeMos_D1_mini-wemos_mini-meteo-home-rescue U1
 U 1 1 5F79E0BA
@@ -241,4 +229,12 @@ Text Label 5500 2000 0    50   ~ 0
 GND
 Text Label 5150 3400 0    50   ~ 0
 5V
+Wire Wire Line
+	4900 2900 5600 2900
+Wire Wire Line
+	5600 2800 5350 2800
+Wire Wire Line
+	5350 2800 5350 3000
+Wire Wire Line
+	5350 3000 4900 3000
 $EndSCHEMATC
