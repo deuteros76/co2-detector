@@ -1,0 +1,147 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Impacts weather/sunrise data
+  elevation: 50
+  # C for Celsius, F for Fahrenheit
+  temperature_unit: C
+  # 'metric' for the metric system, 'imperial' for the imperial system
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Madrid
+
+# Show links to resources in log and frontend
+#introduction:
+
+system_health:
+
+
+group:
+  kids:
+    name: Kids room
+    entities:
+      - sensor.kids_temperature
+      - sensor.kids_humidity
+      - sensor.kids_heatindex
+      - sensor.kids_co2
+      - sensor.kids_tvoc
+  dinner_room:
+    name: Dinner room
+    entities:
+      - sensor.comedor_temperature
+      - sensor.comedor_humidity
+      - sensor.comedor_heatindex
+      - sensor.comedor_co2
+      - sensor.comedor_tvoc
+
+# Enables the frontend
+frontend:
+
+# Checks for available updates
+updater:
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+
+# View all events in a logbook
+logbook:
+
+
+#MQTT configuration
+mqtt:
+  broker: 127.0.0.1
+  port: 1883
+  client_id: home-assistant-1
+  keepalive: 60
+  #username: USERNAME
+  #password: PASSWORD
+  #certificate: /home/paulus/dev/addtrustexternalcaroot.crt
+  protocol: 3.1
+
+
+##### Kids room  #####
+sensor kids_temperature:
+   platform: mqtt
+   name: "Kids temperature"
+   state_topic: "kids/temperature"
+   qos: 0
+   unit_of_measurement: "C"
+
+sensor kids_humidity:
+   platform: mqtt
+   name: "Kids humidity"
+   state_topic: "kids/humidity"
+   qos: 0
+   unit_of_measurement: "%"
+
+sensor kids_heatindex:
+   platform: mqtt
+   name: "Kids heatindex"
+   state_topic: "kids/heatindex"
+   qos: 0
+   unit_of_measurement: "C"
+
+
+sensor kids_co2:
+   platform: mqtt
+   name: "Kids CO2"
+   state_topic: "kids/co2"
+   qos: 0
+   unit_of_measurement: "ppm"
+                      
+sensor kids_tvoc:
+    platform: mqtt
+    name: "Kids TVOC"
+    state_topic: "kids/tvoc"
+    qos: 0
+    unit_of_measurement: "ppb"
+
+##### Dinner room #####
+sensor comedor_temperature:
+    platform: mqtt
+    name: "Dinner room temperature"
+    state_topic: "comedor/temperature"
+    qos: 0
+    unit_of_measurement: "C"
+
+sensor comedor_humidity:
+    platform: mqtt
+    name: "Dinner room humidity"
+    state_topic: "comedor/humidity"
+    qos: 0
+    unit_of_measurement: "%"
+
+sensor comedor_heatindex:
+    platform: mqtt
+    name: "Dinner room heatindex"
+    state_topic: "comedor/heatindex"
+    qos: 0
+    unit_of_measurement: "C"
+
+sensor comedor_co2:
+    platform: mqtt
+    name: "Dinner room CO2"
+    state_topic: "comedor/co2"
+    qos: 0
+    unit_of_measurement: "ppm"
+                         
+sensor comedor_tvoc:
+    platform: mqtt
+    name: "Dinner room TVOC"
+    state_topic: "comedor/tvoc"
+    qos: 0
+    unit_of_measurement: "ppb"
+  
+
+#config:
+
+#mobile_app:
+
+recorder:
+    db_url: postgresql://postgres:postgres@localhost/hass
