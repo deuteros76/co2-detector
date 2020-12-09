@@ -61,7 +61,7 @@ mqtt:
   keepalive: 60
   #username: USERNAME
   #password: PASSWORD
-  #certificate: /home/paulus/dev/addtrustexternalcaroot.crt
+  #certificate: /home/username/dev/addtrustexternalcaroot.crt
   protocol: 3.1
 
 
@@ -144,4 +144,4 @@ sensor comedor_tvoc:
 #mobile_app:
 
 recorder:
-    db_url: postgresql://postgres:postgres@localhost/hass
+    db_url: postgresql://user:password@localhost/hass

@@ -13,7 +13,7 @@ After reading [this article](https://theconversation.com/how-to-use-ventilation-
 
 ## Hardware
 
-You will find the hardware shcemtaics and design files in the board dirctory. The hardware is distributed under the Cern Open Source Hardware License 1.2.
+You will find the hardware schematics and design files in the board directory. The hardware is distributed under the Cern Open Source Hardware License 1.2.
 
 ![Prototype](doc/images/board-red-light.png) 
 
@@ -61,9 +61,9 @@ After saving the settings the device will be reset and then it will run in its n
 
 ## Usage
 
-All LEDs will be turned on when the decice starts. After configuring the device, it will try to connecto to the configured network. After that, only one LED will be lighted.
+All LEDs will be turned on when the device starts. After configuring the device, it will try to connect to the configured network. After that, only one LED will be lighted.
 
-The CO2 sensor takes a meassurement every second and sends an average of the last 60 CO2 and TVOC values every minute. The temperature and humidity sensor is used to correct the obtained data as explained in the SGP30 datasheet.
+The CO2 sensor takes a measurement every second and sends an average of the last 60 CO2 and TVOC values every minute. The temperature and humidity sensor is used to correct the obtained data as explained in the SGP30 data sheet.
 
 ## Home Assistant
 
@@ -155,7 +155,7 @@ mqtt:
   keepalive: 60
   #username: USERNAME
   #password: PASSWORD
-  #certificate: /home/paulus/dev/addtrustexternalcaroot.crt
+  #certificate: /home/username/dev/addtrustexternalcaroot.crt
   protocol: 3.1
 
 
@@ -238,5 +238,5 @@ sensor comedor_tvoc:
 #mobile_app:
 
 recorder:
-    db_url: postgresql://postgres:postgres@localhost/hass
+    db_url: postgresql://user:password@localhost/hass
 ```
