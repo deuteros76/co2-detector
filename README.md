@@ -15,15 +15,15 @@ After reading [this article](https://theconversation.com/how-to-use-ventilation-
 
 You will find the hardware shcemtaics and design files in the board dirctory. The hardware is distributed under the Cern Open Source Hardware License 1.2.
 
-Note: currently I haven't tested the PCB design. I have ordered 5 boards to test the design but I can't guarantee that the PCB will work right now. My current prototypes are built using bread boards. You can use the schematic to build your own circuit as it show all the connections.
-
-![Prototype](doc/images/prototype-1.jpg) 
+![Prototype](doc/images/board-red-light.png) 
 
 ### Hardware components
 - Wemos D1 mini
 - DHT22 sensor
 - SGP30 sensor
 - Wires, tools...
+- Green, yellow and red LEDs
+- ... (See bill of materials below)
 
 ## Software
 
@@ -59,6 +59,12 @@ Then, fill all the fields related to your MQTT topic names and save your configu
 
 After saving the settings the device will be reset and then it will run in its normal mode, gathering data from all sensors.
 
+## Usage
+
+All LEDs will be turned on when the decice starts. After configuring the device, it will try to connecto to the configured network. After that, only one LED will be lighted.
+
+The CO2 sensor takes a meassurement every second and sends an average of the last 60 CO2 and TVOC values every minute. The temperature and humidity sensor is used to correct the obtained data as explained in the SGP30 datasheet.
+
 ## Home Assistant
 
 I use Home Assistant to collect all the data and display the information. The software runs in a miniPC (a SolidRun CuBox-i) which is a small home IoT server and also has the Mosquitto mqtt broker. The device sends sensors data to the mqtt broker and Home Assistant reads it and stores everything in a data base. 
@@ -66,3 +72,171 @@ In addition to that Home Assistant has a frontend application that shows the cur
 You can use any other similar software with the capability of subscribing to read from mqtt.
 
 ![Home Assistant](doc/images/hass.png) 
+
+# Bill of materials
+
+| Reference |  Value                     |  Footprint                                                     |  Datasheet |
+| --------- | -------------------------- | -------------------------------------------------------------- | ---------- |
+| D1        | Red                        | LEDs:LED_D5.0mm                                                |            |
+| R3        | 90                         | Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal |            |
+| R4        | 10K                        | Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal |            |
+| TH1       | DHT22_Temperature_Humidity | Sensors:DHT22_Temperature_Humidity                             |            |
+| U2        | SGP30                      | Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm               |            |
+| D2        | Yellow                     | LEDs:LED_D5.0mm                                                |            |
+| D3        | Green                      | LEDs:LED_D5.0mm                                                |            |
+| R1        | 160                        | Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal |            |
+| R2        | 160                        | Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal |            |
+| U1        | WeMos_D1_mini              | wemos-d1-mini:wemos-d1-mini-with-pin-header                    |            |
+
+# Example of a configuration for Home Assistant
+The following Home Assistant configuration file is an example of two CO2 detectors placed at different rooms within a house. One is in a dinner room while the second is monitoring a sleeping room. Each device sends the data provided by the SGP20 (CO2 and TVOC) and DHT22 (temperature, humidity and heat index) sensors to a mqtt queue which is installed in the computer hosting Home Assistant.
+
+```
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Impacts weather/sunrise data
+  elevation: 50
+  # C for Celsius, F for Fahrenheit
+  temperature_unit: C
+  # 'metric' for the metric system, 'imperial' for the imperial system
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Madrid
+
+# Show links to resources in log and frontend
+#introduction:
+
+system_health:
+
+
+group:
+  kids:
+    name: Kids room
+    entities:
+      - sensor.kids_temperature
+      - sensor.kids_humidity
+      - sensor.kids_heatindex
+      - sensor.kids_co2
+      - sensor.kids_tvoc
+  dinner_room:
+    name: Dinner room
+    entities:
+      - sensor.comedor_temperature
+      - sensor.comedor_humidity
+      - sensor.comedor_heatindex
+      - sensor.comedor_co2
+      - sensor.comedor_tvoc
+
+# Enables the frontend
+frontend:
+
+# Checks for available updates
+updater:
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+
+# View all events in a logbook
+logbook:
+
+
+#MQTT configuration
+mqtt:
+  broker: 127.0.0.1
+  port: 1883
+  client_id: home-assistant-1
+  keepalive: 60
+  #username: USERNAME
+  #password: PASSWORD
+  #certificate: /home/paulus/dev/addtrustexternalcaroot.crt
+  protocol: 3.1
+
+
+##### Kids room  #####
+sensor kids_temperature:
+   platform: mqtt
+   name: "Kids temperature"
+   state_topic: "kids/temperature"
+   qos: 0
+   unit_of_measurement: "C"
+
+sensor kids_humidity:
+   platform: mqtt
+   name: "Kids humidity"
+   state_topic: "kids/humidity"
+   qos: 0
+   unit_of_measurement: "%"
+
+sensor kids_heatindex:
+   platform: mqtt
+   name: "Kids heatindex"
+   state_topic: "kids/heatindex"
+   qos: 0
+   unit_of_measurement: "C"
+
+
+sensor kids_co2:
+   platform: mqtt
+   name: "Kids CO2"
+   state_topic: "kids/co2"
+   qos: 0
+   unit_of_measurement: "ppm"
+                      
+sensor kids_tvoc:
+    platform: mqtt
+    name: "Kids TVOC"
+    state_topic: "kids/tvoc"
+    qos: 0
+    unit_of_measurement: "ppb"
+
+##### Dinner room #####
+sensor comedor_temperature:
+    platform: mqtt
+    name: "Dinner room temperature"
+    state_topic: "comedor/temperature"
+    qos: 0
+    unit_of_measurement: "C"
+
+sensor comedor_humidity:
+    platform: mqtt
+    name: "Dinner room humidity"
+    state_topic: "comedor/humidity"
+    qos: 0
+    unit_of_measurement: "%"
+
+sensor comedor_heatindex:
+    platform: mqtt
+    name: "Dinner room heatindex"
+    state_topic: "comedor/heatindex"
+    qos: 0
+    unit_of_measurement: "C"
+
+sensor comedor_co2:
+    platform: mqtt
+    name: "Dinner room CO2"
+    state_topic: "comedor/co2"
+    qos: 0
+    unit_of_measurement: "ppm"
+                         
+sensor comedor_tvoc:
+    platform: mqtt
+    name: "Dinner room TVOC"
+    state_topic: "comedor/tvoc"
+    qos: 0
+    unit_of_measurement: "ppb"
+  
+
+#config:
+
+#mobile_app:
+
+recorder:
+    db_url: postgresql://postgres:postgres@localhost/hass
+```
