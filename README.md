@@ -6,18 +6,28 @@ After reading [this article](https://theconversation.com/how-to-use-ventilation-
 - Yellow light if there are between 600 and 800 PPM.
 - Red when the CO2 is greater than 800.
 
+![Prototype](doc/images/board-red-light.png) 
+
 ## Features
 - Configuration of WiFi network and MQTT through a web portal.
 - Temperature, humidity and air qualiity (CO2 and TVOC) sensors.
 - Possibility of being used with Home Assistant or any software capable of reading a mqtt queue.
 
-## Hardware
+## License
+
+### Hardware
 
 You will find the hardware schematics and design files in the board directory. The hardware is distributed under the Cern Open Source Hardware License 1.2.
 
-![Prototype](doc/images/board-red-light.png) 
+### Software
 
-### Hardware components
+The software is available unde Apache 2.0 license and can be found in the co2-detector directory.
+
+### Documentation
+
+Documents found in this project are distrubuted under Creative Commons CC0 license.
+
+## Hardware components
 - Wemos D1 mini
 - DHT22 sensor
 - SGP30 sensor
@@ -25,17 +35,14 @@ You will find the hardware schematics and design files in the board directory. T
 - Green, yellow and red LEDs
 - ... (See bill of materials below)
 
-## Software
 
-The software is available unde Apache 2.0 license and can be found in the co2-detector directory.
-
-### Requirements
+## Software requirements
 - This source uses Arduino IDE and its standard libraries
 - Additional libraries: WiFiManager, Arduino Json, PubSubClient, DHT and Adafruit SGP30
 - A computer running MQTT
 - [Optional] A computer running Home Assistant
 
-## Configuration
+## Device configuration
 
 During the first execution, the device will launch a WiFi access point. Using your PC or mobile device, check the available networks and connect to the network whose name starts with "CO2-detector". After that, point your browser to http://192.168.4.1 and the configuration page will be displayed. 
 
