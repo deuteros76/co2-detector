@@ -244,7 +244,7 @@ void Manager::setup_wifi(){
 
 void Manager::readBaseline(SGP30 *sensor){
   if (SPIFFS.begin()) {
-
+    //SPIFFS.remove("/baseline.json"); // Uncomment to remove the file if the device sends extremly high values of CO2 / TVOC
     if (SPIFFS.exists("/baseline.json")) {
       //file exists, reading and loading
       File blFile = SPIFFS.open("/baseline.json", "r");
