@@ -97,7 +97,10 @@ void setup() {
   addr.fromString(manager.mqttServer());
   client.setServer(addr, atoi(manager.mqttPort().c_str())); 
   Serial.println("Configured!!");
-  
+
+  digitalWrite(RED_PIN, LOW);  
+  digitalWrite(YELLOW_PIN, LOW);
+  digitalWrite(GREEN_PIN, HIGH);
 }
 
 
@@ -242,7 +245,5 @@ void loop() {
   Serial.print(" ppm\tTVOC: ");
   Serial.print(mySensor.TVOC);
   Serial.println(" ppb");
-
-
 
 }
