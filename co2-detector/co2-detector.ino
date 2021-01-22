@@ -145,19 +145,19 @@ float readDHT22(){
   Serial.print(humidity);
   Serial.print(" ");
   Serial.println(heatindex);
-  if (temperature != NAN){
+  if (temperature > 0){
     client.publish(manager.dhtTemperatureTopic().c_str(), String(temperature).c_str(), true);
     Serial.print(String(manager.dhtTemperatureTopic().c_str()));
     Serial.println(String(temperature).c_str());
     delay(50);
   }  
-  if (humidity != NAN){
+  if (humidity > 0){
     client.publish(manager.dhtHumidityTopic().c_str(), String(humidity).c_str(), true);
     Serial.print(String(manager.dhtHumidityTopic().c_str()));
     Serial.println(String(humidity).c_str());
     delay(50);
   }
-  if (heatindex != NAN){
+  if (heatindex > 0){
     client.publish(manager.dhtHeatindexTopic().c_str(), String(heatindex).c_str(), true);
     Serial.print(String(manager.dhtHeatindexTopic().c_str()));
     Serial.println(String(heatindex).c_str());
