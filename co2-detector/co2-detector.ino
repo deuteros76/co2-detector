@@ -92,6 +92,7 @@ void setup() {
   
   digitalWrite(RED_PIN, LOW);  
   digitalWrite(YELLOW_PIN, LOW);
+  digitalWrite(GREEN_PIN, LOW);
 }
 
 
@@ -100,6 +101,7 @@ void reconnect() {
   long t1 = millis();
   while (!client.connected() && (millis() - t1 < CONNECTION_TIMEOUT)) {
     // Attempt to connect
+    digitalWrite(YELLOW_PIN, HIGH);
     String clientName("ESP8266Client-");
     clientName.concat(ESP.getChipId());   
     Serial.print("Attempting MQTT connection... ");
@@ -113,9 +115,14 @@ void reconnect() {
       Serial.println(manager.mqttPort().c_str()); 
       Serial.println(" trying again in 5 seconds");
       // Wait 5 seconds before retrying
-      delay(5000);
+      digitalWrite(YELLOW_PIN, LOW);
+      delay(2500);
+      digitalWrite(YELLOW_PIN, HIGH);
+      delay(2500);
+      digitalWrite(YELLOW_PIN, LOW);
     }
   }
+  digitalWrite(YELLOW_PIN, LOW);
 }
 
 float readDHT22(){  
