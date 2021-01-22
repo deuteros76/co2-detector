@@ -145,18 +145,24 @@ float readDHT22(){
   Serial.print(humidity);
   Serial.print(" ");
   Serial.println(heatindex);
-  client.publish(manager.dhtTemperatureTopic().c_str(), String(temperature).c_str(), true);
-  Serial.print(String(manager.dhtTemperatureTopic().c_str()));
-  Serial.println(String(temperature).c_str());
-  delay(50);
-  client.publish(manager.dhtHumidityTopic().c_str(), String(humidity).c_str(), true);
-  Serial.print(String(manager.dhtHumidityTopic().c_str()));
-  Serial.println(String(humidity).c_str());
-  delay(50);
-  client.publish(manager.dhtHeatindexTopic().c_str(), String(heatindex).c_str(), true);
-  Serial.print(String(manager.dhtHeatindexTopic().c_str()));
-  Serial.println(String(heatindex).c_str());
-  delay(50);
+  if (temperature != NAN){
+    client.publish(manager.dhtTemperatureTopic().c_str(), String(temperature).c_str(), true);
+    Serial.print(String(manager.dhtTemperatureTopic().c_str()));
+    Serial.println(String(temperature).c_str());
+    delay(50);
+  }  
+  if (humidity != NAN){
+    client.publish(manager.dhtHumidityTopic().c_str(), String(humidity).c_str(), true);
+    Serial.print(String(manager.dhtHumidityTopic().c_str()));
+    Serial.println(String(humidity).c_str());
+    delay(50);
+  }
+  if (heatindex != NAN){
+    client.publish(manager.dhtHeatindexTopic().c_str(), String(heatindex).c_str(), true);
+    Serial.print(String(manager.dhtHeatindexTopic().c_str()));
+    Serial.println(String(heatindex).c_str());
+    delay(50);
+  }
 }
 
 double RHtoAbsolute (float relHumidity, float tempC) {
@@ -220,22 +226,20 @@ void loop() {
     co2 = 0;
     tvoc = 0;
 
-    //Convert relative humidity to absolute humidity
-    double absHumidity = RHtoAbsolute(humidity, temperature);
-  
-    //Convert the double type humidity to a fixed point 8.8bit number
-    uint16_t sensHumidity = doubleToFixedPoint(absHumidity);
-  
-    //Set the humidity compensation on the SGP30 to the measured value
-    //If no humidity sensor attached, sensHumidity should be 0 and sensor will use default
-    mySensor.setHumidity(sensHumidity);
-    Serial.print("Absolute Humidity Compensation set to: ");
-    Serial.print(absHumidity);
-    Serial.println("g/m^3 ");
-
+    if ((humidity>0) && (temperature>0)){
+      //Convert relative humidity to absolute humidity
+      double absHumidity = RHtoAbsolute(humidity, temperature);
     
-
+      //Convert the double type humidity to a fixed point 8.8bit number
+      uint16_t sensHumidity = doubleToFixedPoint(absHumidity);
     
+      //Set the humidity compensation on the SGP30 to the measured value
+      //If no humidity sensor attached, sensHumidity should be 0 and sensor will use default
+      mySensor.setHumidity(sensHumidity);
+      Serial.print("Absolute Humidity Compensation set to: ");
+      Serial.print(absHumidity);
+      Serial.println("g/m^3 ");
+    }    
   }
   co2 += mySensor.CO2;
   tvoc += mySensor.TVOC;
