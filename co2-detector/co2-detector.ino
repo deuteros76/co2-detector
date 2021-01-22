@@ -77,8 +77,16 @@ void setup() {
   Wire.begin();
   //Initialize sensor
   if (mySensor.begin() == false) {
+    digitalWrite(RED_PIN, LOW);  
+    digitalWrite(YELLOW_PIN, LOW);
+    digitalWrite(GREEN_PIN, LOW);
     Serial.println("No SGP30 Detected. Check connections.");
-    while (1);
+    while (1){
+      digitalWrite(RED_PIN, HIGH);  
+      delay(1000);
+      digitalWrite(RED_PIN, LOW);  
+      delay(1000);      
+    }
   }
   //Initializes sensor for air quality readings
   mySensor.initAirQuality();
