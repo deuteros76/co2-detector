@@ -70,6 +70,11 @@ After saving the settings the device will be reset and then it will run in its n
 
 All LEDs will be turned on when the device starts. After configuring the device, it will try to connect to the configured network. After that, only one LED will be lighted.
 
+Device's LEDs are also useful to know the current state in case of error: 
+
+  1.  If you see all them lighted on, the board is unable to connect to your WiFi.
+  2.  If the yellow LED blinks, your co2-detector is connected to the WiFi but cannot reach the MQTT queue.
+
 The CO2 sensor takes a measurement every second and sends an average of the last 60 CO2 and TVOC values every minute. The temperature and humidity sensor is used to correct the obtained data as explained in the SGP30 data sheet.
 
 ## Home Assistant
