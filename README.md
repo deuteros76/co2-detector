@@ -69,13 +69,16 @@ After saving the settings the device will be reset and then it will run in its n
 ## Usage
 
 All LEDs will be turned on when the device starts. After configuring the device, it will try to connect to the configured network. After that, only one LED will be lighted.
+  
+The CO2 sensor takes a measurement every second and sends an average of the last 60 CO2 and TVOC values every minute. The temperature and humidity sensor is used to correct the obtained data as explained in the SGP30 data sheet.
 
 Device's LEDs are also useful to know the current state in case of error: 
 
   1.  If you see all them lighted on, the board is unable to connect to your WiFi.
   2.  If the yellow LED blinks, your co2-detector is connected to the WiFi but cannot reach the MQTT queue.
+  3.  If the SGP30 sensor is not detected, the red LED blinks.
 
-The CO2 sensor takes a measurement every second and sends an average of the last 60 CO2 and TVOC values every minute. The temperature and humidity sensor is used to correct the obtained data as explained in the SGP30 data sheet.
+DHT22 (humidity and temperature sensor) errors are detected but not reported through the LEDs as this sensor is used to improve the accuracy of the CO2 readings but it is not critical if it doesn't work. It is possible to detect a malfunction in the DHT22 finding the last temperature and humidity readings in Homa Assistant (for instance if both values are not updated for many hours). 
 
 ## Home Assistant
 
