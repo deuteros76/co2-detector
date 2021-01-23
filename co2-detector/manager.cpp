@@ -179,6 +179,7 @@ void Manager::setup_wifi(){
     mask.fromString(network_mask.c_str());
     
     WiFi.config(ip, gateway,mask);
+    WiFi.hostname("CO2-Detector");
     WiFi.mode(WIFI_STA);
     WiFi.begin(WiFi.SSID().c_str(), WiFi.psk().c_str());
     Serial.println(WiFi.SSID().c_str());
