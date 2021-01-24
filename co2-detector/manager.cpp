@@ -104,6 +104,8 @@ void Manager::setup_config_data(){
 
 
 void Manager::setup_wifi(){
+  long wifiTimeStart;
+  
   WiFiManagerParameter custom_network_group("<p>Network settings</p>");
   WiFiManagerParameter custom_network_ip("IP", "IP", network_ip.c_str(), 15);
   WiFiManagerParameter custom_network_mask("mask", "mask", network_mask.c_str(), 15);
@@ -149,9 +151,6 @@ void Manager::setup_wifi(){
   wifiManager.addParameter(&custom_sgp_co2_topic);
   wifiManager.addParameter(&custom_sgp_tvoc_topic);
 
-
-  long wifiTimeStart = millis();
-
   if (configFileExists){
     //read updated parameters
     network_ip=custom_network_ip.getValue();
@@ -181,17 +180,23 @@ void Manager::setup_wifi(){
     WiFi.config(ip, gateway,mask);
     WiFi.hostname("CO2-Detector");
     WiFi.mode(WIFI_STA);
-    WiFi.begin(WiFi.SSID().c_str(), WiFi.psk().c_str());
-    Serial.println(WiFi.SSID().c_str());
-    Serial.println( WiFi.psk().c_str());
-    
-    while (WiFi.status() != WL_CONNECTED && (millis() - wifiTimeStart < WIFI_CONNECTION_TIMEOUT)) {
-      delay(500);
-      Serial.print(".");
-    }
-    if (WiFi.status() != WL_CONNECTED){
-      Serial.println("\nUnable to connect to the WiFi network. Going to sleep");
-      ESP.deepSleep(DEEP_SLEEP_TIME * 1000000);      
+    while (WiFi.status() != WL_CONNECTED){
+      wifiTimeStart = millis();
+      if (strlen(WiFi.psk().c_str())==0){
+        WiFi.begin(WiFi.SSID().c_str());
+        Serial.printf("\nConnecting to an open network (%s).\n",WiFi.SSID().c_str());  
+      }
+      else {
+        WiFi.begin(WiFi.SSID().c_str(), WiFi.psk().c_str());
+        Serial.printf("\nConnecting to an encrypted network (%s).\n",WiFi.SSID().c_str());  
+      }
+      
+      while (WiFi.status() != WL_CONNECTED && (millis() - wifiTimeStart < WIFI_CONNECTION_TIMEOUT)) {
+        delay(500);
+        Serial.print(".");
+      }
+      
+      Serial.println("\nUnable to connect to the WiFi network. Trying again.");   
     }
     
     Serial.println("");
