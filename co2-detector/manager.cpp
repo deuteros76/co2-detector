@@ -173,6 +173,7 @@ void Manager::setup_wifi(){
     Serial.println(network_ip);
     Serial.println(network_gateway.c_str());
     Serial.println(network_mask.c_str());
+    Serial.println(WiFi.macAddress());
     ip.fromString(network_ip.c_str());
     gateway.fromString(network_gateway.c_str());
     mask.fromString(network_mask.c_str());
