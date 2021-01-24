@@ -48,7 +48,7 @@ During the first execution, the device will launch a WiFi access point. Using yo
 
 ![Home](doc/images/home.png) 
 
-Choose the first option ("Configure WiFi") and select your WiFi network from the list of detected access points then, write your WiFi password.
+Choose the first option ("Configure WiFi") and select your WiFi network from the list of detected access points then, write your WiFi password. If your wifi network is open, leave the password field empty.
 
 ![Available networks](doc/images/wifi-scan.png) 
 
