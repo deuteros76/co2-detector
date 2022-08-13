@@ -134,7 +134,7 @@ void reconnect() {
   digitalWrite(YELLOW_PIN, LOW);
 }
 
-float readDHT22(){  
+void readDHT22(){  
   //read dht22 value
   temperature = dht.readTemperature();    
   humidity = dht.readHumidity();
@@ -144,7 +144,8 @@ float readDHT22(){
   Serial.print(" ");
   Serial.print(humidity);
   Serial.print(" ");
-  Serial.println(heatindex);
+  Serial.println(heatindex); 
+  
   if (temperature > 0){
     client.publish(manager.dhtTemperatureTopic().c_str(), String(temperature).c_str(), true);
     Serial.print(String(manager.dhtTemperatureTopic().c_str()));
@@ -194,15 +195,14 @@ void loop() {
   /*mySensor.getBaseline();
   Serial.println("\nBaseline read:");
   Serial.println(mySensor.baselineCO2);
-  Serial.println(mySensor.baselineTVOC);
-  */
+  Serial.println(mySensor.baselineTVOC);*/
 
   // Publish each 60 secs. Maybe we can send an average of this interval?
   counter++;
   if (counter == 60){
     readDHT22();
-
-    int avgCO2=co2/60;
+    
+    int avgCO2=co2/counter;
 
     if (avgCO2<600){
       digitalWrite(YELLOW_PIN, LOW);
@@ -217,10 +217,9 @@ void loop() {
       digitalWrite(YELLOW_PIN, LOW);
       digitalWrite(RED_PIN, HIGH);
     }
-    
-         
+      
     client.publish(manager.sgpCO2Topic().c_str(), String(avgCO2).c_str(), true);
-    client.publish(manager.sgpTVOCTopic().c_str(), String(tvoc/60).c_str(), true);
+    client.publish(manager.sgpTVOCTopic().c_str(), String(tvoc/counter).c_str(), true);
     manager.saveBaseline(&mySensor);
     counter = 0;
     co2 = 0;
@@ -239,6 +238,7 @@ void loop() {
       Serial.print("Absolute Humidity Compensation set to: ");
       Serial.print(absHumidity);
       Serial.println("g/m^3 ");
+     
     }    
   }
   co2 += mySensor.CO2;
