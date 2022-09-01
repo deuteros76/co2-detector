@@ -65,14 +65,14 @@ void Manager::setup_config_data(){
         std::unique_ptr<char[]> buf(new char[size]);
 
         configFile.readBytes(buf.get(), size);
-        DynamicJsonBuffer jsonBuffer;
-        JsonObject& json = jsonBuffer.parseObject(buf.get());
-        json.printTo(Serial);
-        if (json.success()) {
+        DynamicJsonDocument json(1024);
+        deserializeJson(json,buf.get());
+        serializeJson(json, Serial);
+        if (!json.isNull()) {
           configFileExists=true;
           Serial.println("\nparsed json:");
           
-          json.printTo(Serial);
+          serializeJson(json, Serial);
 
           network_ip = (const char *)json["network_ip"];
           network_mask = (const char *)json["network_mask"];
@@ -89,6 +89,12 @@ void Manager::setup_config_data(){
 
           sgp_co2_topic = (const char *)json["sgp_co2_topic"];
           sgp_tvoc_topic=(const char *)json["sgp_tvoc_topic"];
+          
+          dht_temperature_discovery_topic = "homeassistant/sensor/"+ String(dht_temperature_topic) + "/config";
+          dht_humidity_discovery_topic = "homeassistant/sensor/"+ String(dht_humidity_topic) + "/config";
+          dht_heatindex_discovery_topic = "homeassistant/sensor/"+ String(dht_heatindex_topic) + "/config";
+          sgp_co2_discovery_topic = "homeassistant/sensor/"+ String(sgp_co2_topic) + "/config";
+          sgp_tvoc_discovery_topic = "homeassistant/sensor/"+ String(sgp_tvoc_topic) + "/config";          
 
         } else {
           Serial.println("failed to load json config");
@@ -217,8 +223,7 @@ void Manager::setup_wifi(){
   //save the custom parameters to FS
   if (shouldSaveConfig) {
     Serial.println("saving config");
-    DynamicJsonBuffer jsonBuffer;
-    JsonObject& json = jsonBuffer.createObject();
+    DynamicJsonDocument json(1024);
 
     json["network_ip"] = custom_network_ip.getValue();
     json["network_mask"] = custom_network_mask.getValue();
@@ -241,12 +246,63 @@ void Manager::setup_wifi(){
       Serial.println("failed to open config file for writing");
     }
 
-    json.printTo(Serial);
-    json.printTo(configFile);
+    serializeJson(json, Serial);    
+    serializeJson(json, configFile);
     configFile.close();
     //end save
   }
  
+}
+
+String Manager::temperatureDiscoveryMsg() {
+
+  DynamicJsonDocument doc(1024);
+  String buffer;
+
+  doc["name"] = String(dht_temperature_topic) + " Temperature";
+  doc["stat_t"]   = dht_temperature_topic;
+  doc["unit_of_meas"] = "°C";
+  doc["dev_cla"] = "temperature";
+  doc["frc_upd"] = true;
+  doc["uniq_id"] =  dht_temperature_topic;
+
+  serializeJson(doc, buffer);
+
+  return buffer;
+}
+
+String Manager::getDiscoveryMsg(String topic, String unit) {
+
+  DynamicJsonDocument doc(1024);
+  String buffer;
+
+  doc["name"] = topic;
+  doc["stat_t"]   = topic;
+  doc["unit_of_meas"] = unit;
+  doc["dev_cla"] = "temperature";
+  doc["frc_upd"] = true;
+  doc["uniq_id"] =  topic;
+
+  serializeJson(doc, buffer);
+
+  return buffer;
+}
+
+String Manager::humidityDiscoveryMsg() {
+
+  DynamicJsonDocument doc(1024);
+  String buffer;
+
+  doc["name"] = String(dht_humidity_topic) + " Humidity";
+  doc["stat_t"]   = dht_humidity_topic;
+  doc["unit_of_meas"] = "%";
+  doc["dev_cla"] = "humidity";
+  doc["frc_upd"] = true;
+  doc["uniq_id"] =  dht_humidity_topic;
+
+  serializeJson(doc, buffer);
+
+  return buffer;
 }
 
 void Manager::readBaseline(SGP30 *sensor){
@@ -261,11 +317,11 @@ void Manager::readBaseline(SGP30 *sensor){
         std::unique_ptr<char[]> buf(new char[size]);
 
         blFile.readBytes(buf.get(), size);
-        DynamicJsonBuffer jsonBuffer;
-        JsonObject& json = jsonBuffer.parseObject(buf.get());
-        if (json.success()) {
+        DynamicJsonDocument json(1024);
+        DeserializationError error =deserializeJson(json,buf.get());
+        if (!error) {
           Serial.println("\nparsed json");          
-          json.printTo(Serial);
+          serializeJson(json, Serial);
 
           sensor->baselineCO2 = json["blCO2"].as<uint16_t>();;
           sensor->baselineTVOC = json["blTVOC"].as<uint16_t>();;          
@@ -285,8 +341,7 @@ void Manager::readBaseline(SGP30 *sensor){
 }
 
 void Manager::saveBaseline(SGP30 *sensor){
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& json = jsonBuffer.createObject();
+  DynamicJsonDocument json(1024);
 
   sensor->getBaseline();
   
@@ -301,7 +356,7 @@ void Manager::saveBaseline(SGP30 *sensor){
     Serial.println("failed to open config file for writing");
   }
   
-  json.printTo(blFile);
+  serializeJson(json, blFile);
   blFile.close();
 
  }

@@ -96,6 +96,64 @@ void setup() {
   IPAddress addr;
   addr.fromString(manager.mqttServer());
   client.setServer(addr, atoi(manager.mqttPort().c_str())); 
+  
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+  
+  char buf[256];
+  String message=manager.getDiscoveryMsg(manager.dhtTemperatureDiscoveryTopic(),"ºC");
+  message.toCharArray(buf,message.length()+1);
+  if (client.beginPublish (manager.dhtTemperatureDiscoveryTopic().c_str(), message.length(), true)){
+    for (int i=0; i<=message.length()+1;i++){
+      client.write(buf[i]);
+    }
+    client.endPublish();
+  }else{
+    Serial.println("Error sending humidity discovery message"); 
+  }
+  
+  // Not sure why but I have to disconnect and connect again to make work the second publish
+  client.disconnect();
+  reconnect();
+  message=manager.getDiscoveryMsg(manager.dhtHumidityDiscoveryTopic(),"%");
+  message.toCharArray(buf,message.length()+1);
+  if (client.beginPublish (manager.dhtHumidityDiscoveryTopic().c_str(), message.length(), true)){
+    for (int i=0; i<=message.length()+1;i++){
+      client.write(buf[i]);
+    }
+    client.endPublish();
+  }else{
+    Serial.println("Error sending humidity discovery message"); 
+  }
+
+  client.disconnect();
+  reconnect();
+  message=manager.getDiscoveryMsg(manager.sgpCO2Topic(),"ppm");
+  message.toCharArray(buf,message.length()+1);
+  if (client.beginPublish (manager.sgpCO2DiscoveryTopic().c_str(), message.length(), true)){
+    for (int i=0; i<=message.length()+1;i++){
+      client.write(buf[i]);
+    }
+    client.endPublish();
+  }else{
+    Serial.println("Error sending CO2 discovery message"); 
+  }
+  
+  client.disconnect();
+  reconnect();
+  String msgTVOC=manager.getDiscoveryMsg(manager.sgpTVOCTopic(),"ppb");
+  msgTVOC.toCharArray(buf,msgTVOC.length()+1);
+  if (client.beginPublish (manager.sgpTVOCDiscoveryTopic().c_str(), msgTVOC.length(), true)){
+    for (int i=0; i<=msgTVOC.length()+1;i++){
+      client.write(buf[i]);
+    }
+    client.endPublish();
+  }else{
+    Serial.println("Error sending TVOC discovery message"); 
+  }
+  
   Serial.println("Configured!!");
 
   digitalWrite(RED_PIN, LOW);  

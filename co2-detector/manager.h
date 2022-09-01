@@ -47,6 +47,11 @@ public:
   //callback notifying us of the need to save config
   static void saveConfigCallback () { Serial.println("Should save config"); shouldSaveConfig = true;}
 
+  //Make the device discoverable
+  String temperatureDiscoveryMsg();
+  String humidityDiscoveryMsg();
+  String getDiscoveryMsg(String topic, String unit);
+
   void readBaseline(SGP30 *sensor);
   void saveBaseline(SGP30 *sensor);
 
@@ -62,6 +67,12 @@ public:
   String dhtTemperatureTopic(){return dht_temperature_topic;}
   String dhtHumidityTopic(){return dht_humidity_topic;}
   String dhtHeatindexTopic(){return dht_heatindex_topic;}
+  
+  String dhtTemperatureDiscoveryTopic(){return dht_temperature_discovery_topic;}
+  String dhtHumidityDiscoveryTopic(){return dht_humidity_discovery_topic;}
+  String dhtHeatindexDiscoveryTopic(){return dht_heatindex_discovery_topic;}
+  String sgpCO2DiscoveryTopic(){return sgp_co2_discovery_topic;}
+  String sgpTVOCDiscoveryTopic(){return sgp_tvoc_discovery_topic;}
 
   String sgpCO2Topic(){return sgp_co2_topic;}
   String sgpTVOCTopic(){return sgp_tvoc_topic;}
@@ -82,6 +93,13 @@ private:
   String dht_temperature_topic;
   String dht_humidity_topic;
   String dht_heatindex_topic;
+  
+  //MQTT discovery topics
+  String dht_temperature_discovery_topic;
+  String dht_humidity_discovery_topic;
+  String dht_heatindex_discovery_topic;
+  String sgp_co2_discovery_topic;
+  String sgp_tvoc_discovery_topic;
 
   String sgp_co2_topic;
   String sgp_tvoc_topic;  
