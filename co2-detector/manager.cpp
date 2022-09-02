@@ -212,6 +212,7 @@ void Manager::setup_wifi(){
     Serial.println(WiFi.localIP());
     Serial.println(WiFi.gatewayIP());
     Serial.println(WiFi.subnetMask());
+    Serial.println(WiFi.hostname());
   }else {
         wifiManager.setTimeout(300);
         wifiManager.startConfigPortal("CO2-detector");
