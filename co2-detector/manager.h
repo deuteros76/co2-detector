@@ -48,8 +48,6 @@ public:
   static void saveConfigCallback () { Serial.println("Should save config"); shouldSaveConfig = true;}
 
   //Make the device discoverable
-  String temperatureDiscoveryMsg();
-  String humidityDiscoveryMsg();
   String getDiscoveryMsg(String topic, String unit);
 
   void readBaseline(SGP30 *sensor);

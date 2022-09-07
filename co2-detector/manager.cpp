@@ -183,9 +183,11 @@ void Manager::setup_wifi(){
     ip.fromString(network_ip.c_str());
     gateway.fromString(network_gateway.c_str());
     mask.fromString(network_mask.c_str());
-    
+
+    String hostname = "Meteo-home_";
+    hostname.concat(WiFi.macAddress());
     WiFi.config(ip, gateway,mask);
-    WiFi.hostname("CO2-Detector");
+    WiFi.hostname(hostname.c_str());
     WiFi.mode(WIFI_STA);
     while (WiFi.status() != WL_CONNECTED){
       wifiTimeStart = millis();
@@ -255,51 +257,29 @@ void Manager::setup_wifi(){
  
 }
 
-String Manager::temperatureDiscoveryMsg() {
-
-  DynamicJsonDocument doc(1024);
-  String buffer;
-
-  doc["name"] = String(dht_temperature_topic) + " Temperature";
-  doc["stat_t"]   = dht_temperature_topic;
-  doc["unit_of_meas"] = "°C";
-  doc["dev_cla"] = "temperature";
-  doc["frc_upd"] = true;
-  doc["uniq_id"] =  dht_temperature_topic;
-
-  serializeJson(doc, buffer);
-
-  return buffer;
-}
-
 String Manager::getDiscoveryMsg(String topic, String unit) {
 
   DynamicJsonDocument doc(1024);
   String buffer;
+  String name;
+  char *token;
 
-  doc["name"] = topic;
+  char charBuf[50];
+  topic.toCharArray(charBuf, 50);
+  
+  token = strtok (charBuf,"/");
+  while (token != NULL)
+  {
+    printf ("%s\n",token);
+    token = strtok (NULL, "/");
+    name.concat(token);
+  }
+
+  doc["name"] = name;
   doc["stat_t"]   = topic;
   doc["unit_of_meas"] = unit;
-  doc["dev_cla"] = "temperature";
   doc["frc_upd"] = true;
   doc["uniq_id"] =  topic;
-
-  serializeJson(doc, buffer);
-
-  return buffer;
-}
-
-String Manager::humidityDiscoveryMsg() {
-
-  DynamicJsonDocument doc(1024);
-  String buffer;
-
-  doc["name"] = String(dht_humidity_topic) + " Humidity";
-  doc["stat_t"]   = dht_humidity_topic;
-  doc["unit_of_meas"] = "%";
-  doc["dev_cla"] = "humidity";
-  doc["frc_upd"] = true;
-  doc["uniq_id"] =  dht_humidity_topic;
 
   serializeJson(doc, buffer);
 
