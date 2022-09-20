@@ -184,7 +184,7 @@ void Manager::setup_wifi(){
     gateway.fromString(network_gateway.c_str());
     mask.fromString(network_mask.c_str());
 
-    String hostname = "Meteo-home_";
+    String hostname = "CO2-detector_";
     hostname.concat(WiFi.macAddress());
     WiFi.config(ip, gateway,mask);
     WiFi.hostname(hostname.c_str());
