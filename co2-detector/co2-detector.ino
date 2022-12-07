@@ -167,6 +167,7 @@ void reconnect() {
   long t1 = millis();
   while (!client.connected() && (millis() - t1 < CONNECTION_TIMEOUT)) {
     // Attempt to connect
+    client.disconnect();
     String clientName("ESP8266Client-");
     clientName.concat(ESP.getChipId());
     Serial.print("Attempting MQTT connection... ");
@@ -301,11 +302,11 @@ void loop() {
   }
   co2 += mySensor.CO2;
   tvoc += mySensor.TVOC;
-
+  /*
   Serial.print("CO2: ");
   Serial.print(mySensor.CO2);
   Serial.print(" ppm\tTVOC: ");
   Serial.print(mySensor.TVOC);
   Serial.println(" ppb");
-
+  */
 }
