@@ -34,9 +34,6 @@
 DHT dht(DHTPIN, DHTTYPE); // Initializes the DHT sensor.
 SGP30 mySensor; //create an object of the SGP30 class
 
-//Timeout connection for wifi or mqtt server
-#define CONNECTION_TIMEOUT 20000 //Timeout for connections. The idea is to prevent for continuous conection tries. 
-
 //Portal and wific connection manager
 Manager manager;
 
@@ -161,7 +158,7 @@ void setup() {
 void reconnect() {
   // Loop until we're reconnected
   long t1 = millis();
-  while (!client.connected() && (millis() - t1 < CONNECTION_TIMEOUT)) {
+  while (!client.connected()) {
     // Attempt to connect
     client.disconnect();
     String clientName("ESP8266Client-");
