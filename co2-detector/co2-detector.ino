@@ -114,8 +114,6 @@ void setup() {
     Serial.println("Error sending humidity discovery message");
   }
 
-  // Not sure why but I have to disconnect and connect again to make work the second publish
-  client.disconnect();
   reconnect();
   message = manager.getDiscoveryMsg(manager.dhtHumidityTopic(), "%");
   message.toCharArray(buf, message.length() + 1);
@@ -128,7 +126,6 @@ void setup() {
     Serial.println("Error sending humidity discovery message");
   }
 
-  client.disconnect();
   reconnect();
   message = manager.getDiscoveryMsg(manager.sgpCO2Topic(), "ppm");
   message.toCharArray(buf, message.length() + 1);
@@ -141,7 +138,6 @@ void setup() {
     Serial.println("Error sending CO2 discovery message");
   }
 
-  client.disconnect();
   reconnect();
   String msgTVOC = manager.getDiscoveryMsg(manager.sgpTVOCTopic(), "ppb");
   msgTVOC.toCharArray(buf, msgTVOC.length() + 1);
